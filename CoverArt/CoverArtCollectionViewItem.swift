@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class CoverArtCollectionViewItem: NSCollectionViewItem {
+final class CoverArtCollectionViewItem: NSCollectionViewItem {
     
-    let label = { () -> NSTextField in
+    private let label: NSTextField = {
         let label = NSTextField(labelWithString: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
@@ -18,13 +18,13 @@ class CoverArtCollectionViewItem: NSCollectionViewItem {
         return label
     }()
     
-    let overlay = { () -> OverlayView in
+    private let overlay: OverlayView = {
         let overlay = OverlayView()
         overlay.translatesAutoresizingMaskIntoConstraints = false
         return overlay
     }()
     
-    var trackingArea: NSTrackingArea?
+    private var trackingArea: NSTrackingArea?
     
     override var representedObject: Any? {
         didSet {
@@ -38,7 +38,7 @@ class CoverArtCollectionViewItem: NSCollectionViewItem {
         }
     }
     
-    var mediaItem: MediaItem? {
+    private var mediaItem: MediaItem? {
         return representedObject as? MediaItem
     }
     
@@ -89,9 +89,9 @@ class CoverArtCollectionViewItem: NSCollectionViewItem {
     }
 }
 
-class OverlayView: NSView {
+fileprivate final class OverlayView: NSView {
     
-    let label = { () -> NSTextField in
+    private let label = { () -> NSTextField in
         let label = NSTextField(labelWithString: "Copy URL")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
@@ -108,7 +108,7 @@ class OverlayView: NSView {
         commonInit()
     }
     
-    func commonInit() {
+    private func commonInit() {
         addSubview(label)
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

@@ -8,11 +8,12 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
-    @IBOutlet weak var searchField: NSSearchField!
-    @IBOutlet weak var collectionView: NSCollectionView!
+final class ViewController: NSViewController {
     
-    var mediaItems = [MediaItem]()
+    @IBOutlet private weak var searchField: NSSearchField!
+    @IBOutlet private weak var collectionView: NSCollectionView!
+    
+    private var mediaItems = [MediaItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
