@@ -706,11 +706,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="CoverArt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="482" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="584" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="horizontal" alignment="bottom" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OqA-ih-ZCe">
-                                <rect key="frame" x="20" y="228" width="442" height="22"/>
+                                <rect key="frame" x="20" y="228" width="544" height="22"/>
                                 <subviews>
                                     <searchField wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVY-Vd-iht">
                                         <rect key="frame" x="0.0" y="0.0" width="442" height="22"/>
@@ -723,22 +723,37 @@
                                             <outlet property="delegate" destination="XfG-lQ-9wD" id="nXS-BW-Lnr"/>
                                         </connections>
                                     </searchField>
+                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jul-ev-t5e">
+                                        <rect key="frame" x="448" y="-3" width="99" height="25"/>
+                                        <popUpButtonCell key="cell" type="push" title="Movies" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OhD-Z7-Mqn" id="IGp-8Q-yYl">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="menu"/>
+                                            <menu key="menu" id="NBy-K9-7hh">
+                                                <items>
+                                                    <menuItem title="Movies" state="on" id="OhD-Z7-Mqn"/>
+                                                    <menuItem title="TV Shows" id="zog-fD-aJp"/>
+                                                </items>
+                                            </menu>
+                                        </popUpButtonCell>
+                                    </popUpButton>
                                 </subviews>
                                 <visibilityPriorities>
+                                    <integer value="1000"/>
                                     <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
                                     <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkV-aI-wNo">
-                                <rect key="frame" x="20" y="20" width="442" height="200"/>
+                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkV-aI-wNo">
+                                <rect key="frame" x="20" y="20" width="544" height="200"/>
                                 <clipView key="contentView" id="hC0-cG-CmR">
-                                    <rect key="frame" x="1" y="1" width="440" height="198"/>
+                                    <rect key="frame" x="1" y="1" width="542" height="198"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView id="CJL-i6-TCy">
-                                            <rect key="frame" x="0.0" y="0.0" width="440" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="542" height="198"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="16" minimumLineSpacing="16" id="kxc-Gn-RPY">
                                                 <size key="itemSize" width="50" height="50"/>
@@ -748,7 +763,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="gwl-jo-bQ9">
-                                    <rect key="frame" x="12" y="172" width="418" height="16"/>
+                                    <rect key="frame" x="-100" y="-100" width="418" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Huh-Kq-7Rz">
@@ -756,19 +771,26 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="JeZ-GX-uaf">
+                                <rect key="frame" x="284" y="112" width="16" height="16"/>
+                            </progressIndicator>
                         </subviews>
                         <constraints>
                             <constraint firstItem="OqA-ih-ZCe" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="0Qa-lA-fpD"/>
                             <constraint firstItem="mkV-aI-wNo" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="5aW-xJ-tVv"/>
                             <constraint firstAttribute="trailing" secondItem="OqA-ih-ZCe" secondAttribute="trailing" constant="20" id="6bU-Lk-vf3"/>
+                            <constraint firstItem="JeZ-GX-uaf" firstAttribute="centerY" secondItem="mkV-aI-wNo" secondAttribute="centerY" id="9jh-VO-a2x"/>
                             <constraint firstAttribute="bottom" secondItem="mkV-aI-wNo" secondAttribute="bottom" constant="20" id="SlH-DA-dSG"/>
                             <constraint firstItem="OqA-ih-ZCe" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="Yh9-Lk-zaF"/>
+                            <constraint firstItem="JeZ-GX-uaf" firstAttribute="centerX" secondItem="mkV-aI-wNo" secondAttribute="centerX" id="aLU-2g-4Ki"/>
                             <constraint firstAttribute="trailing" secondItem="mkV-aI-wNo" secondAttribute="trailing" constant="20" id="dHf-Q6-3fe"/>
                             <constraint firstItem="mkV-aI-wNo" firstAttribute="top" secondItem="OqA-ih-ZCe" secondAttribute="bottom" constant="8" id="qHK-OQ-Lzh"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="JeZ-GX-uaf" id="dMy-MG-IQH"/>
                         <outlet property="collectionView" destination="CJL-i6-TCy" id="7Ua-jW-hNm"/>
+                        <outlet property="popUpButton" destination="jul-ev-t5e" id="Bff-ny-619"/>
                         <outlet property="searchField" destination="cVY-Vd-iht" id="rfj-Ds-jrn"/>
                     </connections>
                 </viewController>

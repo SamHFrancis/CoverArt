@@ -11,7 +11,9 @@ import Cocoa
 final class ViewController: NSViewController {
     
     @IBOutlet private weak var searchField: NSSearchField!
+    @IBOutlet private weak var popUpButton: NSPopUpButton!
     @IBOutlet private weak var collectionView: NSCollectionView!
+    @IBOutlet private weak var activityIndicator: NSProgressIndicator!
     
     private var mediaItems = [MediaItem]()
     
@@ -19,49 +21,49 @@ final class ViewController: NSViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        let layout = NSCollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        collectionView.collectionViewLayout = layout
-        collectionView.allowsMultipleSelection = false
-        collectionView.isSelectable = true
         collectionView.register(CoverArtCollectionViewItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"))
+        
+        popUpButton.removeAllItems()
+        
+        MediaType.allCases
+            .map { $0.displayString }
+            .forEach(popUpButton.addItem)
     }
 
     func search(_ text: String) {
-        WebService.fetchMediaItems(term: text) { [weak self] result in
+        mediaItems = []
+        collectionView.reloadData()
+        
+        activityIndicator.startAnimation(nil)
+        let mediaType = MediaType.allCases[popUpButton.indexOfSelectedItem]
+        WebService.fetchMediaItems(term: text, mediaType: mediaType) { [weak self] result in
             guard let self = self else { return }
-            
-            switch result {
-            case .success(let mediaItems):
-                self.mediaItems = mediaItems
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimation(nil)
+                
+                switch result {
+                case .success(let mediaItems):
+                    self.mediaItems = mediaItems
                     self.collectionView.reloadData()
+                case .failure(let error):
+                    print("Error: \(error)")
                 }
-            case .failure(let error):
-                print("Error: \(error)")
             }
         }
     }
 }
 
 extension ViewController: NSSearchFieldDelegate {
-    func searchFieldDidStartSearching(_ sender: NSSearchField) {
-//        print("start")
-    }
-    
-    func searchFieldDidEndSearching(_ sender: NSSearchField) {
-//        print("end")
-    }
-    
-    func controlTextDidChange(_ obj: Notification) {
-//        print(searchField.stringValue)
-    }
     
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
         switch commandSelector {
         case #selector(NSResponder.insertNewline(_:)):
-            search(searchField.stringValue)
-            return true
+            if !searchField.stringValue.isEmpty {
+                search(searchField.stringValue)
+                return true
+            } else {
+                return false
+            }
         case #selector(NSResponder.deleteForward(_:)): fallthrough
         case #selector(NSResponder.deleteBackward(_:)): fallthrough
         case #selector(NSResponder.insertTab(_:)): fallthrough
@@ -70,6 +72,7 @@ extension ViewController: NSSearchFieldDelegate {
             return false
         }
     }
+    
 }
 
 extension ViewController: NSCollectionViewDataSource {
@@ -96,6 +99,6 @@ extension ViewController: NSCollectionViewDataSource {
 
 extension ViewController: NSCollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-        return CGSize(width: 100, height: 100)
+        return CGSize(width: 200, height: 350)
     }
 }

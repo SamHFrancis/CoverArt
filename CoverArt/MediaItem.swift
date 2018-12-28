@@ -10,22 +10,35 @@ import Foundation
 
 struct MediaItem {
     let trackName: String
-    let artworkUrl: String
+    let artworkUrlSmall: URL
+    let artworkUrl: URL
     
-    init(dict: [String: Any]) throws {
-        guard let trackName = dict["trackName"] as? String,
+    init?(dict: [String: Any]) {
+        guard let trackName = (dict["trackName"] ?? dict["collectionName"]) as? String,
             let artworkUrl100 = dict["artworkUrl100"] as? String else {
-                throw ServiceError.parsing
+                return nil
         }
         
         var artworkUrlComponents = URLComponents(string: artworkUrl100)
-        guard let path = artworkUrlComponents?.path else { throw ServiceError.parsing }
         
-        artworkUrlComponents?.path = path.replacingOccurrences(of: "100x100bb", with: "100000x100000-999")
+        guard let smallPath = artworkUrlComponents?.path else {
+            return nil
+        }
+        
+        artworkUrlComponents?.path = smallPath.replacingOccurrences(of: "100x100bb", with: "600x600bb")
+        
+        guard let smallUrl = artworkUrlComponents?.url,
+            let path = artworkUrlComponents?.path else {
+                return nil
+        }
+        
+        self.artworkUrlSmall = smallUrl
+        
+        artworkUrlComponents?.path = path.replacingOccurrences(of: "600x600bb", with: "100000x100000-999")
         artworkUrlComponents?.host = "is5.mzstatic.com"
         artworkUrlComponents?.scheme = "http"
         
-        guard let artworkUrl = artworkUrlComponents?.url?.absoluteString else { throw ServiceError.parsing }
+        guard let artworkUrl = artworkUrlComponents?.url else { return nil }
         
         self.trackName = trackName
         self.artworkUrl = artworkUrl

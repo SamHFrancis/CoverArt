@@ -15,6 +15,7 @@
 		225A17FF21D4AB3300A465A8 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A17FE21D4AB3300A465A8 /* WebService.swift */; };
 		225A180121D4B49300A465A8 /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A180021D4B49300A465A8 /* MediaItem.swift */; };
 		225A180321D59A0100A465A8 /* CoverArtCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A180221D59A0100A465A8 /* CoverArtCollectionViewItem.swift */; };
+		2261A74B21D5E67C00AB158F /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2261A74A21D5E67C00AB158F /* MediaType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		225A17FE21D4AB3300A465A8 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		225A180021D4B49300A465A8 /* MediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
 		225A180221D59A0100A465A8 /* CoverArtCollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoverArtCollectionViewItem.swift; sourceTree = "<group>"; };
+		2261A74A21D5E67C00AB158F /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
 		3D50766F2EDBF4B211B96FA0 /* Pods_CoverArt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoverArt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B607FF92520BAE06A36A6A52 /* Pods-CoverArt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoverArt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoverArt/Pods-CoverArt.debug.xcconfig"; sourceTree = "<group>"; };
 		BCA2613E8741346750B8B724 /* Pods-CoverArt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoverArt.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoverArt/Pods-CoverArt.release.xcconfig"; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			children = (
 				225A17EA21D4711900A465A8 /* AppDelegate.swift */,
 				225A180021D4B49300A465A8 /* MediaItem.swift */,
+				2261A74A21D5E67C00AB158F /* MediaType.swift */,
 				225A17FE21D4AB3300A465A8 /* WebService.swift */,
 				225A17EC21D4711900A465A8 /* ViewController.swift */,
 				225A180221D59A0100A465A8 /* CoverArtCollectionViewItem.swift */,
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2261A74B21D5E67C00AB158F /* MediaType.swift in Sources */,
 				225A17ED21D4711900A465A8 /* ViewController.swift in Sources */,
 				225A180121D4B49300A465A8 /* MediaItem.swift in Sources */,
 				225A17FF21D4AB3300A465A8 /* WebService.swift in Sources */,

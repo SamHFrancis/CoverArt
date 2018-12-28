@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Kingfisher
 
 final class CoverArtCollectionViewItem: NSCollectionViewItem {
     
@@ -14,8 +15,20 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
         let label = NSTextField(labelWithString: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
+        label.font = NSFont.systemFont(ofSize: 15, weight: .medium)
         label.lineBreakMode = .byTruncatingTail
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
+    }()
+    
+    private var coverArtImageView: NSImageView = {
+        let imageView = NSImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        imageView.imageScaling = .scaleProportionallyUpOrDown
+        return imageView
     }()
     
     private let overlay: OverlayView = {
@@ -33,6 +46,16 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
             }
             
             label.stringValue = mediaItem.trackName
+            let processor = DownsamplingImageProcessor(size: CGSize(width: 200, height: 300))
+            coverArtImageView.kf.indicatorType = .activity
+            let options: KingfisherOptionsInfo = [
+                .processor(processor),
+                .scaleFactor(NSScreen.main!.backingScaleFactor),
+                .cacheMemoryOnly
+            ]
+            
+            coverArtImageView.kf.setImage(with: mediaItem.artworkUrlSmall,
+                                          options: options)
             overlay.isHidden = true
             overlay.showCopy()
         }
@@ -44,10 +67,19 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
     
     override func loadView() {
         let view = NSView(frame: .zero)
-        view.addSubview(label)
-        label.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        label.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor).isActive = true
-        label.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        let stackView = NSStackView(views: [coverArtImageView, label])
+        stackView.orientation = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 12
+        coverArtImageView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor).isActive = true
+        coverArtImageView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor).isActive = true
+        
+        view.addSubview(stackView)
+        stackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         view.addSubview(overlay)
         overlay.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -84,7 +116,7 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
     override func mouseUp(with event: NSEvent) {
         guard let artworkUrl = mediaItem?.artworkUrl else { return }
         NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(artworkUrl, forType: .string)
+        NSPasteboard.general.setString(artworkUrl.absoluteString, forType: .string)
         overlay.showCopied()
     }
 }
@@ -95,6 +127,7 @@ fileprivate final class OverlayView: NSView {
         let label = NSTextField(labelWithString: "Copy URL")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
+        label.font = NSFont.systemFont(ofSize: 18, weight: .medium)
         return label
     } ()
     
@@ -116,7 +149,7 @@ fileprivate final class OverlayView: NSView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        NSColor.red.withAlphaComponent(0.4).setFill()
+        NSColor.black.withAlphaComponent(0.75).setFill()
         dirtyRect.fill()
     }
     
