@@ -10,11 +10,20 @@ import Cocoa
 
 class ViewController: NSViewController {
     @IBOutlet weak var searchField: NSSearchField!
+    @IBOutlet weak var collectionView: NSCollectionView!
     
     var mediaItems = [MediaItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        let layout = NSCollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        collectionView.collectionViewLayout = layout
+        collectionView.allowsMultipleSelection = false
+        collectionView.isSelectable = true
+        collectionView.register(CoverArtCollectionViewItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"))
     }
 
     func search(_ text: String) {
@@ -24,7 +33,9 @@ class ViewController: NSViewController {
             switch result {
             case .success(let mediaItems):
                 self.mediaItems = mediaItems
-                print(self.mediaItems)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 print("Error: \(error)")
             }
@@ -57,5 +68,33 @@ extension ViewController: NSSearchFieldDelegate {
         default:
             return false
         }
+    }
+}
+
+extension ViewController: NSCollectionViewDataSource {
+    func numberOfSections(in collectionView: NSCollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+        return mediaItems.count
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+        let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"), for: indexPath)
+        
+        guard let coverArtItem = item as? CoverArtCollectionViewItem else {
+            return item
+        }
+        
+        coverArtItem.representedObject = mediaItems[indexPath.item]
+        
+        return coverArtItem
+    }
+}
+
+extension ViewController: NSCollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+        return CGSize(width: 100, height: 100)
     }
 }

@@ -740,15 +740,15 @@
                                         <collectionView id="CJL-i6-TCy">
                                             <rect key="frame" x="0.0" y="0.0" width="440" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="A6O-Sz-qmH">
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="16" minimumLineSpacing="16" id="kxc-Gn-RPY">
                                                 <size key="itemSize" width="50" height="50"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </collectionView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="gwl-jo-bQ9">
-                                    <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="gwl-jo-bQ9">
+                                    <rect key="frame" x="12" y="172" width="418" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Huh-Kq-7Rz">
@@ -768,6 +768,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="CJL-i6-TCy" id="7Ua-jW-hNm"/>
                         <outlet property="searchField" destination="cVY-Vd-iht" id="rfj-Ds-jrn"/>
                     </connections>
                 </viewController>
