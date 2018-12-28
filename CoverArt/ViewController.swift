@@ -11,6 +11,7 @@ import Cocoa
 final class ViewController: NSViewController {
     @IBOutlet private weak var collectionView: NSCollectionView!
     @IBOutlet private weak var activityIndicator: NSProgressIndicator!
+    @IBOutlet private weak var emptyStateLabel: NSTextField!
     
     private var mediaItems = [MediaItem]()
     
@@ -23,11 +24,16 @@ final class ViewController: NSViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(CoverArtCollectionViewItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"))
+        
+        emptyStateLabel.isHidden = true
     }
 
     func search(term: String, mediaType: MediaType) {
+        emptyStateLabel.isHidden = true
         mediaItems = []
         collectionView.reloadData()
+        
+        guard !term.isEmpty else { return }
         
         activityIndicator.startAnimation(nil)
         WebService.fetchMediaItems(term: term, mediaType: mediaType) { [weak self] result in
@@ -39,7 +45,11 @@ final class ViewController: NSViewController {
                 case .success(let mediaItems):
                     self.mediaItems = mediaItems
                     self.collectionView.reloadData()
+                    if mediaItems.isEmpty {
+                        self.emptyStateLabel.isHidden = false
+                    }
                 case .failure(let error):
+                    self.emptyStateLabel.isHidden = false
                     print("Error: \(error)")
                 }
             }
@@ -72,5 +82,9 @@ extension ViewController: NSCollectionViewDataSource {
 extension ViewController: NSCollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
         return CGSize(width: 200, height: 350)
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
+        return NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     }
 }

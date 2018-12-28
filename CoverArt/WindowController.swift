@@ -28,7 +28,12 @@ class WindowController: NSWindowController {
             .map { $0.displayString }
             .forEach(popUpButton.addItem)
     }
-
+    
+    @IBAction override func newWindowForTab(_ sender: Any?) {
+        let newWindow = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+            .instantiateInitialController() as! WindowController
+        window?.addTabbedWindow(newWindow.window!, ordered: .above)
+    }
 }
 
 extension WindowController: NSSearchFieldDelegate {
@@ -38,15 +43,11 @@ extension WindowController: NSSearchFieldDelegate {
         
         switch commandSelector {
         case #selector(NSResponder.insertNewline(_:)):
-            viewController.title = searchField.stringValue
-            if !searchField.stringValue.isEmpty {
-                let mediaType = MediaType.allCases[popUpButton.indexOfSelectedItem]
-                viewController.search(term: searchField.stringValue, mediaType: mediaType)
-                
-                return true
-            } else {
-                return false
-            }
+            let term = searchField.stringValue
+            window?.title = term
+            let mediaType = MediaType.allCases[popUpButton.indexOfSelectedItem]
+            viewController.search(term: term, mediaType: mediaType)
+            return true
         case #selector(NSResponder.deleteForward(_:)): fallthrough
         case #selector(NSResponder.deleteBackward(_:)): fallthrough
         case #selector(NSResponder.insertTab(_:)): fallthrough

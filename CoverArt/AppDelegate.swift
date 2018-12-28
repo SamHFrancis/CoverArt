@@ -11,9 +11,20 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func newWindow(_ sender: Any) {
-        print(sender)
-        
-//        window.addTabbedWindow(window, ordered: .below)
+        guard let newWindow = newWindowController().window else { return }
+        newWindow.makeKeyAndOrderFront(sender)
+    }
+    
+    @IBAction func newTab(_ sender: Any) {
+        guard let keyWindow = NSApplication.shared.keyWindow,
+            let newTab = newWindowController().window else { return }
+        keyWindow.addTabbedWindow(newTab, ordered: .above)
+        newTab.makeKeyAndOrderFront(sender)
+    }
+    
+    func newWindowController() -> WindowController {
+        return NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+            .instantiateInitialController() as! WindowController
     }
 }
 

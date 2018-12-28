@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -66,7 +66,7 @@
                                         </menuItem>
                                         <menuItem title="New Tab" keyEquivalent="t" id="wb1-P7-vLv">
                                             <connections>
-                                                <action selector="newDocument:" target="Ady-hI-5gd" id="15s-nQ-ekL"/>
+                                                <action selector="newTab:" target="Voe-Tx-rLC" id="pmd-Io-ycG"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
@@ -382,34 +382,33 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="Document Window Controller" id="B8D-0N-5wS" customClass="WindowController" customModule="CoverArt" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="preferred" titleVisibility="hidden" id="IQv-IB-iLA">
+                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titleVisibility="hidden" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="434" width="600" height="406"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <toolbar key="toolbar" implicitIdentifier="7CBD5553-A5F5-4460-8D43-A4687DF0522D" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="JY1-6w-IZL">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="B686A23B-EF5E-4023-873B-094427A512AB" label="Custom View" paletteLabel="Custom View" sizingBehavior="auto" id="mBe-1y-ZWU">
+                                <toolbarItem implicitItemIdentifier="B686A23B-EF5E-4023-873B-094427A512AB" label="Search Field" paletteLabel="Search Field" visibilityPriority="1" sizingBehavior="auto" id="mBe-1y-ZWU">
                                     <nil key="toolTip"/>
-                                    <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" id="C4o-Jh-7F1">
+                                    <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" preferredMaxLayoutWidth="10000" textCompletion="NO" id="C4o-Jh-7F1">
                                         <rect key="frame" x="0.0" y="14" width="96" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="AGk-QP-fzd">
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="AGk-QP-fzd">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </searchFieldCell>
                                     </searchField>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="2pu-O7-G9O"/>
-                                <toolbarItem implicitItemIdentifier="28E0DE30-67BD-4214-BE18-D86690FDEB83" label="Custom View" paletteLabel="Custom View" sizingBehavior="auto" id="Ce2-MT-WxT">
+                                <toolbarItem implicitItemIdentifier="28E0DE30-67BD-4214-BE18-D86690FDEB83" label="Pop Up Button" paletteLabel="Pop Up Button" sizingBehavior="auto" id="Ce2-MT-WxT">
                                     <nil key="toolTip"/>
                                     <popUpButton key="view" verticalHuggingPriority="750" id="U7t-TH-kL5">
                                         <rect key="frame" x="0.0" y="14" width="100" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="62r-NQ-6q2" id="LGQ-JK-oi6">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="menu"/>
+                                            <font key="font" metaFont="system"/>
                                             <menu key="menu" id="FZw-sU-Z9L">
                                                 <items>
                                                     <menuItem title="Item 1" state="on" id="62r-NQ-6q2"/>
@@ -423,7 +422,6 @@
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="mBe-1y-ZWU"/>
-                                <toolbarItem reference="2pu-O7-G9O"/>
                                 <toolbarItem reference="Ce2-MT-WxT"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -478,15 +476,28 @@
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="JeZ-GX-uaf">
                                 <rect key="frame" x="284" y="127" width="16" height="16"/>
                             </progressIndicator>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="KcY-av-MCu">
+                                <rect key="frame" x="235" y="127" width="115" height="17"/>
+                                <textFieldCell key="cell" selectable="YES" alignment="center" title="No Results Found" id="P89-P7-LQ2">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="JeZ-GX-uaf" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="CZM-Xg-Y8m"/>
+                            <constraint firstItem="KcY-av-MCu" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="MrJ-cZ-McM"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KcY-av-MCu" secondAttribute="trailing" constant="8" id="QYa-aw-FXk"/>
                             <constraint firstItem="JeZ-GX-uaf" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="deJ-6n-nQI"/>
+                            <constraint firstItem="KcY-av-MCu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="8" id="q2o-0p-P6o"/>
+                            <constraint firstItem="KcY-av-MCu" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="tui-kB-z9d"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="JeZ-GX-uaf" id="dMy-MG-IQH"/>
                         <outlet property="collectionView" destination="CJL-i6-TCy" id="7Ua-jW-hNm"/>
+                        <outlet property="emptyStateLabel" destination="KcY-av-MCu" id="trH-WJ-LVo"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
