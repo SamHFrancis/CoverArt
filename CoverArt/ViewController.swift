@@ -9,34 +9,28 @@
 import Cocoa
 
 final class ViewController: NSViewController {
-    
-    @IBOutlet private weak var searchField: NSSearchField!
-    @IBOutlet private weak var popUpButton: NSPopUpButton!
     @IBOutlet private weak var collectionView: NSCollectionView!
     @IBOutlet private weak var activityIndicator: NSProgressIndicator!
     
     private var mediaItems = [MediaItem]()
+    
+    private var windowControler: WindowController? {
+        return view.window?.windowController as? WindowController
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(CoverArtCollectionViewItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"))
-        
-        popUpButton.removeAllItems()
-        
-        MediaType.allCases
-            .map { $0.displayString }
-            .forEach(popUpButton.addItem)
     }
 
-    func search(_ text: String) {
+    func search(term: String, mediaType: MediaType) {
         mediaItems = []
         collectionView.reloadData()
         
         activityIndicator.startAnimation(nil)
-        let mediaType = MediaType.allCases[popUpButton.indexOfSelectedItem]
-        WebService.fetchMediaItems(term: text, mediaType: mediaType) { [weak self] result in
+        WebService.fetchMediaItems(term: term, mediaType: mediaType) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimation(nil)
@@ -51,28 +45,6 @@ final class ViewController: NSViewController {
             }
         }
     }
-}
-
-extension ViewController: NSSearchFieldDelegate {
-    
-    func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
-        switch commandSelector {
-        case #selector(NSResponder.insertNewline(_:)):
-            if !searchField.stringValue.isEmpty {
-                search(searchField.stringValue)
-                return true
-            } else {
-                return false
-            }
-        case #selector(NSResponder.deleteForward(_:)): fallthrough
-        case #selector(NSResponder.deleteBackward(_:)): fallthrough
-        case #selector(NSResponder.insertTab(_:)): fallthrough
-        case #selector(NSResponder.cancelOperation(_:)): fallthrough
-        default:
-            return false
-        }
-    }
-    
 }
 
 extension ViewController: NSCollectionViewDataSource {

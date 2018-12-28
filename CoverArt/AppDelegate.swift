@@ -10,6 +10,10 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    @IBAction func newWindow(_ sender: Any) {
+        print(sender)
+        
+//        window.addTabbedWindow(window, ordered: .below)
+    }
 }
 

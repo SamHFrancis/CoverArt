@@ -14,7 +14,7 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
     private let label: NSTextField = {
         let label = NSTextField(labelWithString: "")
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = .labelColor
         label.font = NSFont.systemFont(ofSize: 15, weight: .medium)
         label.lineBreakMode = .byTruncatingTail
         label.setContentHuggingPriority(.required, for: .vertical)
@@ -71,7 +71,7 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
         let stackView = NSStackView(views: [coverArtImageView, label])
         stackView.orientation = .vertical
         stackView.alignment = .leading
-        stackView.spacing = 12
+        stackView.spacing = 8
         coverArtImageView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor).isActive = true
         coverArtImageView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor).isActive = true
         
