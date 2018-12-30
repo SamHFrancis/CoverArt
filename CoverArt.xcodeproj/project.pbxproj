@@ -17,6 +17,7 @@
 		225A180321D59A0100A465A8 /* CoverArtCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A180221D59A0100A465A8 /* CoverArtCollectionViewItem.swift */; };
 		2261A74B21D5E67C00AB158F /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2261A74A21D5E67C00AB158F /* MediaType.swift */; };
 		2261A74F21D5FF2700AB158F /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2261A74E21D5FF2700AB158F /* WindowController.swift */; };
+		227F4D4121D7448D00399DE1 /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227F4D4021D7448D00399DE1 /* OverlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		225A180221D59A0100A465A8 /* CoverArtCollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoverArtCollectionViewItem.swift; sourceTree = "<group>"; };
 		2261A74A21D5E67C00AB158F /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
 		2261A74E21D5FF2700AB158F /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
+		227F4D4021D7448D00399DE1 /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
 		3D50766F2EDBF4B211B96FA0 /* Pods_CoverArt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoverArt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B607FF92520BAE06A36A6A52 /* Pods-CoverArt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoverArt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoverArt/Pods-CoverArt.debug.xcconfig"; sourceTree = "<group>"; };
 		BCA2613E8741346750B8B724 /* Pods-CoverArt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoverArt.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoverArt/Pods-CoverArt.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,18 +73,43 @@
 			isa = PBXGroup;
 			children = (
 				225A17EA21D4711900A465A8 /* AppDelegate.swift */,
-				225A180021D4B49300A465A8 /* MediaItem.swift */,
-				2261A74A21D5E67C00AB158F /* MediaType.swift */,
+				227F4D3F21D7445E00399DE1 /* Models */,
+				227F4D3E21D743EF00399DE1 /* Views */,
+				227F4D4221D7486400399DE1 /* Controllers */,
 				225A17FE21D4AB3300A465A8 /* WebService.swift */,
-				225A17EC21D4711900A465A8 /* ViewController.swift */,
-				2261A74E21D5FF2700AB158F /* WindowController.swift */,
-				225A180221D59A0100A465A8 /* CoverArtCollectionViewItem.swift */,
 				225A17EE21D4711A00A465A8 /* Assets.xcassets */,
 				225A17F021D4711A00A465A8 /* Main.storyboard */,
 				225A17F321D4711A00A465A8 /* Info.plist */,
 				225A17F421D4711A00A465A8 /* CoverArt.entitlements */,
 			);
 			path = CoverArt;
+			sourceTree = "<group>";
+		};
+		227F4D3E21D743EF00399DE1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				227F4D4021D7448D00399DE1 /* OverlayView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		227F4D3F21D7445E00399DE1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				225A180021D4B49300A465A8 /* MediaItem.swift */,
+				2261A74A21D5E67C00AB158F /* MediaType.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		227F4D4221D7486400399DE1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2261A74E21D5FF2700AB158F /* WindowController.swift */,
+				225A17EC21D4711900A465A8 /* ViewController.swift */,
+				225A180221D59A0100A465A8 /* CoverArtCollectionViewItem.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		B00FD19C098DEC8A9B705CBB /* Frameworks */ = {
@@ -214,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2261A74F21D5FF2700AB158F /* WindowController.swift in Sources */,
+				227F4D4121D7448D00399DE1 /* OverlayView.swift in Sources */,
 				2261A74B21D5E67C00AB158F /* MediaType.swift in Sources */,
 				225A17ED21D4711900A465A8 /* ViewController.swift in Sources */,
 				225A180121D4B49300A465A8 /* MediaItem.swift in Sources */,

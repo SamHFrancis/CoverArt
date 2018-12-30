@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Kingfisher
 
 final class ViewController: NSViewController {
     @IBOutlet private weak var collectionView: NSCollectionView!
@@ -14,6 +15,8 @@ final class ViewController: NSViewController {
     @IBOutlet private weak var emptyStateLabel: NSTextField!
     
     private var mediaItems = [MediaItem]()
+    private var mediaType: MediaType = .movie
+    private var prefetcher: ImagePrefetcher?
     
     private var windowControler: WindowController? {
         return view.window?.windowController as? WindowController
@@ -23,12 +26,18 @@ final class ViewController: NSViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
         collectionView.register(CoverArtCollectionViewItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"))
-        
         emptyStateLabel.isHidden = true
+    }
+    
+    override func viewWillLayout() {
+        super.viewWillLayout()
+        collectionView.collectionViewLayout?.invalidateLayout()
     }
 
     func search(term: String, mediaType: MediaType) {
+        self.mediaType = mediaType
         emptyStateLabel.isHidden = true
         mediaItems = []
         collectionView.reloadData()
@@ -79,12 +88,38 @@ extension ViewController: NSCollectionViewDataSource {
     }
 }
 
+fileprivate let minColumnWidth: CGFloat = 200
+fileprivate let columnSpacing: CGFloat = 20
+fileprivate let rowSpacing: CGFloat = 32
+
 extension ViewController: NSCollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-        return CGSize(width: 200, height: 350)
+        let numberOfColumns = (collectionView.bounds.width - columnSpacing) / (minColumnWidth + columnSpacing)
+        let width = ((collectionView.bounds.width - columnSpacing) / floor(numberOfColumns)) - columnSpacing
+        return CGSize(width: width, height: (width / mediaType.imageAspectRatio) + 27)
     }
     
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
-        return NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        return NSEdgeInsets(top: columnSpacing, left: columnSpacing, bottom: columnSpacing, right: columnSpacing)
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return rowSpacing
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return columnSpacing
+    }
+}
+
+extension ViewController: NSCollectionViewPrefetching {
+    func collectionView(_ collectionView: NSCollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let urls = indexPaths.map { mediaItems[$0.item].artworkUrlSmall }
+        prefetcher = ImagePrefetcher(urls: urls)
+        prefetcher?.start()
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        prefetcher?.stop()
     }
 }

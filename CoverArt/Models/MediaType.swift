@@ -36,8 +36,8 @@ enum MediaType: String, CaseIterable {
     
     var imageAspectRatio: CGFloat {
         switch self {
-        case .movie, .shortFilm, .software, .ebook:
-            return 2.0/3.0
+        case .movie, .shortFilm, .ebook:
+            return 2/3
         default:
             return 1
         }

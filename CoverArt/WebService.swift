@@ -40,7 +40,7 @@ struct WebService {
         }
         
         
-        print("APILog: " + url.absoluteString)
+//        print("APILog: " + url.absoluteString)
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {
@@ -52,7 +52,7 @@ struct WebService {
                 return
             }
             
-            print("APILog: " + (String(data: data, encoding: .utf8) ?? ""))
+//            print("APILog: " + (String(data: data, encoding: .utf8) ?? ""))
             
             guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
                 let results = json?["results"] as? [[String: Any]] else {
@@ -60,7 +60,7 @@ struct WebService {
                     return
             }
             
-            let mediaItems = results.compactMap(MediaItem.init)
+            let mediaItems = results.compactMap { MediaItem(dict: $0, type: mediaType) }
             completion(.success(mediaItems))
         }
         

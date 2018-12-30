@@ -12,8 +12,11 @@ struct MediaItem {
     let trackName: String
     let artworkUrlSmall: URL
     let artworkUrl: URL
+    let type: MediaType
     
-    init?(dict: [String: Any]) {
+    init?(dict: [String: Any], type: MediaType) {
+        self.type = type
+        
         guard let trackName = (dict["trackName"] ?? dict["collectionName"]) as? String,
             let artworkUrl100 = dict["artworkUrl100"] as? String else {
                 return nil

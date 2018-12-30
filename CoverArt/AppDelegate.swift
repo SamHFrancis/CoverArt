@@ -22,6 +22,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         newTab.makeKeyAndOrderFront(sender)
     }
     
+    @IBAction func find(_ sender: Any) {
+        guard let windowController = NSApplication.shared.keyWindow?.windowController as? WindowController else { return }
+        windowController.searchField.becomeFirstResponder()
+    }
+    
     func newWindowController() -> WindowController {
         return NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
             .instantiateInitialController() as! WindowController
