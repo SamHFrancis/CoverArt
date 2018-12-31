@@ -14,9 +14,8 @@ final class ViewController: NSViewController {
     @IBOutlet private weak var activityIndicator: NSProgressIndicator!
     @IBOutlet private weak var emptyStateLabel: NSTextField!
     
-    private var mediaItems = [MediaItem]()
+    private var itemViewModels = [CoverArtCollectionViewModel]()
     private var mediaType: MediaType = .movie
-    private var prefetcher: ImagePrefetcher?
     
     private var windowControler: WindowController? {
         return view.window?.windowController as? WindowController
@@ -26,7 +25,6 @@ final class ViewController: NSViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.prefetchDataSource = self
         collectionView.register(CoverArtCollectionViewItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"))
         emptyStateLabel.isHidden = true
     }
@@ -39,7 +37,7 @@ final class ViewController: NSViewController {
     func search(term: String, mediaType: MediaType) {
         self.mediaType = mediaType
         emptyStateLabel.isHidden = true
-        mediaItems = []
+        itemViewModels = []
         collectionView.reloadData()
         
         guard !term.isEmpty else { return }
@@ -52,7 +50,7 @@ final class ViewController: NSViewController {
                 
                 switch result {
                 case .success(let mediaItems):
-                    self.mediaItems = mediaItems
+                    self.itemViewModels = mediaItems.map(CoverArtCollectionViewModel.init)
                     self.collectionView.reloadData()
                     if mediaItems.isEmpty {
                         self.emptyStateLabel.isHidden = false
@@ -72,7 +70,7 @@ extension ViewController: NSCollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        return mediaItems.count
+        return itemViewModels.count
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
@@ -82,7 +80,7 @@ extension ViewController: NSCollectionViewDataSource {
             return item
         }
         
-        coverArtItem.representedObject = mediaItems[indexPath.item]
+        coverArtItem.representedObject = itemViewModels[indexPath.item]
         
         return coverArtItem
     }
@@ -96,7 +94,8 @@ extension ViewController: NSCollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
         let numberOfColumns = (collectionView.bounds.width - columnSpacing) / (minColumnWidth + columnSpacing)
         let width = ((collectionView.bounds.width - columnSpacing) / floor(numberOfColumns)) - columnSpacing
-        return CGSize(width: width, height: (width / mediaType.imageAspectRatio) + 27)
+        
+        return CGSize(width: width, height: (width / itemViewModels[indexPath.item].imageAspectRatio) + 27)
     }
     
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
@@ -109,17 +108,5 @@ extension ViewController: NSCollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return columnSpacing
-    }
-}
-
-extension ViewController: NSCollectionViewPrefetching {
-    func collectionView(_ collectionView: NSCollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        let urls = indexPaths.map { mediaItems[$0.item].artworkUrlSmall }
-        prefetcher = ImagePrefetcher(urls: urls)
-        prefetcher?.start()
-    }
-    
-    func collectionView(_ collectionView: NSCollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        prefetcher?.stop()
     }
 }
