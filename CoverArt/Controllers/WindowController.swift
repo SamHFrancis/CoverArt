@@ -27,6 +27,8 @@ class WindowController: NSWindowController {
         MediaType.allCases
             .map { $0.displayString }
             .forEach(popUpButton.addItem)
+        
+        searchField.becomeFirstResponder()
     }
     
     @IBAction override func newWindowForTab(_ sender: Any?) {
@@ -34,6 +36,7 @@ class WindowController: NSWindowController {
             .instantiateInitialController() as! WindowController
         window?.addTabbedWindow(newWindow.window!, ordered: .above)
     }
+    
 }
 
 extension WindowController: NSSearchFieldDelegate {

@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Foundation
 import Kingfisher
 
 final class CoverArtCollectionViewItem: NSCollectionViewItem {
@@ -61,7 +62,7 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
             
             coverArtImageView.kf.setImage(with: mediaItem.artworkUrlSmall,
                                           options: options)
-            overlay.showCopy()
+            overlay.resetCopyButton()
         }
     }
     
@@ -97,10 +98,49 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
 }
 
 extension CoverArtCollectionViewItem: OverlayDelegate {
-    func overlayClicked() {
+    func downloadClicked() {
+        
+        guard let trackName = mediaItem?.trackName,
+            let artworkUrl = mediaItem?.artworkUrl else { return }
+        
+        overlay.showDownloading()
+        URLSession.shared.dataTask(with: artworkUrl) { [weak self] data, response, error in
+            guard let data = data else { return }
+            
+            do {
+                var fileUrl = try FileManager.default.url(for: .downloadsDirectory,
+                                                          in: .userDomainMask,
+                                                          appropriateFor: nil,
+                                                          create: true)
+                fileUrl.appendPathComponent(trackName)
+                fileUrl.appendPathExtension("jpg")
+                try data.write(to: fileUrl)
+                
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    self.overlay.showDownloaded()
+                }
+            } catch let e {
+                print(e)
+            }
+            }
+            .resume()
+    }
+    
+    func copyLinkClicked() {
         guard let artworkUrl = mediaItem?.artworkUrl else { return }
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(artworkUrl.absoluteString, forType: .string)
         overlay.showCopied()
+    }
+    
+    func browserClicked() {
+        guard let artworkUrl = mediaItem?.artworkUrl else { return }
+        NSWorkspace.shared.open(artworkUrl)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        overlay.prepareForReuse()
     }
 }
