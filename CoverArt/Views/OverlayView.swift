@@ -201,10 +201,9 @@ final class OverlayView: NSView {
     private final class ContentView: NSView {
         override func draw(_ dirtyRect: NSRect) {
             super.draw(dirtyRect)
-            if let gradient = NSGradient(colors: [.clear, .clear, .clear, NSColor.black.withAlphaComponent(0.8)]),
-                dirtyRect.origin == .zero {
-                gradient.draw(in: dirtyRect, angle: 270)
-                print(dirtyRect)
+            let start = NSColor.black.withAlphaComponent(0.15)
+            if let gradient = NSGradient(colors: [start, start, start, NSColor.black.withAlphaComponent(0.9)]) {
+                gradient.draw(in: bounds, angle: 270)
             }
         }
     }
