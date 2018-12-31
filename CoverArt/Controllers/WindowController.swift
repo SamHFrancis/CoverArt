@@ -19,6 +19,7 @@ class WindowController: NSWindowController {
     }
 
     override func windowDidLoad() {
+        window?.setFrameAutosaveName("MainWindow")
         super.windowDidLoad()
         searchField.delegate = self
         

@@ -9,6 +9,8 @@
 import Cocoa
 import Kingfisher
 
+fileprivate let emptySearchText = "No Search Term Entered"
+
 final class ViewController: NSViewController {
     @IBOutlet private weak var collectionView: NSCollectionView!
     @IBOutlet private weak var activityIndicator: NSProgressIndicator!
@@ -26,7 +28,7 @@ final class ViewController: NSViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(CoverArtCollectionViewItem.self, forItemWithIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CoverArtCollectionViewItem"))
-        emptyStateLabel.isHidden = true
+        emptyStateLabel.stringValue = emptySearchText
     }
     
     override func viewWillLayout() {
@@ -40,7 +42,11 @@ final class ViewController: NSViewController {
         itemViewModels = []
         collectionView.reloadData()
         
-        guard !term.isEmpty else { return }
+        guard !term.isEmpty else {
+            emptyStateLabel.stringValue = emptySearchText
+            emptyStateLabel.isHidden = false
+            return
+        }
         
         activityIndicator.startAnimation(nil)
         WebService.fetchMediaItems(term: term, mediaType: mediaType) { [weak self] result in
@@ -53,9 +59,11 @@ final class ViewController: NSViewController {
                     self.itemViewModels = mediaItems.map(CoverArtCollectionViewModel.init)
                     self.collectionView.reloadData()
                     if mediaItems.isEmpty {
+                        self.emptyStateLabel.stringValue = "No Results Found"
                         self.emptyStateLabel.isHidden = false
                     }
                 case .failure(let error):
+                    self.emptyStateLabel.stringValue = "An error occurred retrieving data."
                     self.emptyStateLabel.isHidden = false
                     print("Error: \(error)")
                 }
