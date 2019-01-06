@@ -50,8 +50,8 @@ final class ViewController: NSViewController {
         
         activityIndicator.startAnimation(nil)
         WebService.fetchMediaItems(term: term, mediaType: mediaType) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 self.activityIndicator.stopAnimation(nil)
                 
                 switch result {

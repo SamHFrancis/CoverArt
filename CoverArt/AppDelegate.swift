@@ -10,6 +10,8 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    var windowControllers = Set<NSWindowController>()
+    
     @IBAction func newWindow(_ sender: Any) {
         guard let newWindow = newWindowController().window else { return }
         newWindow.makeKeyAndOrderFront(sender)
@@ -28,8 +30,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func newWindowController() -> WindowController {
-        return NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-            .instantiateInitialController() as! WindowController
+        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+        let windowController = storyboard.instantiateInitialController() as! WindowController
+        windowControllers.insert(windowController)
+        return windowController
     }
 }
 

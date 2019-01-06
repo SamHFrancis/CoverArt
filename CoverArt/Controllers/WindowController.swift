@@ -21,6 +21,7 @@ class WindowController: NSWindowController {
     override func windowDidLoad() {
         window?.setFrameAutosaveName("MainWindow")
         super.windowDidLoad()
+        window?.delegate = self
         searchField.delegate = self
         
         popUpButton.removeAllItems()
@@ -30,6 +31,8 @@ class WindowController: NSWindowController {
             .forEach(popUpButton.addItem)
         
         searchField.becomeFirstResponder()
+        
+        window?.title = "Empty Search"
     }
     
     @IBAction override func newWindowForTab(_ sender: Any?) {
@@ -38,6 +41,13 @@ class WindowController: NSWindowController {
         window?.addTabbedWindow(newWindow.window!, ordered: .above)
     }
     
+}
+
+extension WindowController: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        appDelegate.windowControllers.remove(self)
+    }
 }
 
 extension WindowController: NSSearchFieldDelegate {
