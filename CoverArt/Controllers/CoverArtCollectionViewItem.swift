@@ -254,29 +254,46 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
                     print(error)
                 }
                 
-                DispatchQueue.main.async {
-                    self.showDownloadError()
+                DispatchQueue.main.async { [weak self] in
+                    self?.showDownloadError()
                 }
                 
                 return
             }
             
             do {
-                var fileUrl = try FileManager.default.url(for: .downloadsDirectory,
-                                                          in: .userDomainMask,
-                                                          appropriateFor: nil,
-                                                          create: true)
-                fileUrl.appendPathComponent(trackName)
-                fileUrl.appendPathExtension("jpg")
+                let fileManager = FileManager.default
+                
+                let downloadsDirectory = try fileManager.url(for: .downloadsDirectory,
+                                                             in: .userDomainMask,
+                                                             appropriateFor: nil,
+                                                             create: true)
+                
+                var fileUrl = downloadsDirectory
+                    .appendingPathComponent(trackName)
+                    .appendingPathExtension("jpg")
+                
+                let searchFile = { (url: URL) in
+                    url.absoluteString.dropFirst("file://".count).removingPercentEncoding!
+                }
+                
+                var iteration = 0
+                while fileManager.fileExists(atPath: searchFile(fileUrl)) {
+                    iteration += 1
+                    fileUrl = downloadsDirectory
+                        .appendingPathComponent(trackName + "-\(iteration)")
+                        .appendingPathExtension("jpg")
+                }
+                
                 try data.write(to: fileUrl)
                 
-                DispatchQueue.main.async {
-                    self.showDownloaded()
+                DispatchQueue.main.async { [weak self] in
+                    self?.showDownloaded()
                 }
             } catch let e {
                 print(e)
-                DispatchQueue.main.async {
-                    self.showDownloadError()
+                DispatchQueue.main.async { [weak self] in
+                    self?.showDownloadError()
                 }
             }
             }
