@@ -19,6 +19,7 @@ final class ViewController: NSViewController {
     private var itemViewModels = [CoverArtCollectionViewModel]()
     private var mediaType: MediaType = .movie
     private var searchTask: URLSessionDataTask?
+    private var prefetchers = [ImagePrefetcher]()
     
     private var windowControler: WindowController? {
         return view.window?.windowController as? WindowController
@@ -43,6 +44,7 @@ final class ViewController: NSViewController {
         itemViewModels = []
         collectionView.reloadData()
         searchTask?.cancel()
+        stopPrefetchers()
         
         guard !term.isEmpty else {
             emptyStateLabel.stringValue = emptySearchText
@@ -73,8 +75,15 @@ final class ViewController: NSViewController {
         }
     }
     
+    func stopPrefetchers() {
+        for prefetcher in prefetchers {
+            prefetcher.stop()
+        }
+    }
+    
     deinit {
         searchTask?.cancel()
+        stopPrefetchers()
     }
 }
 
@@ -122,5 +131,14 @@ extension ViewController: NSCollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return columnSpacing
+    }
+}
+
+extension ViewController: NSCollectionViewPrefetching {
+    func collectionView(_ collectionView: NSCollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let urls = indexPaths.map { itemViewModels[$0.item].artworkUrlSmall }
+        let prefetcher = ImagePrefetcher(urls: urls)
+        prefetchers.append(prefetcher)
+        prefetcher.start()
     }
 }
