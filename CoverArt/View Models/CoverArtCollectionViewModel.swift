@@ -12,6 +12,7 @@ import AppKit
 final class CoverArtCollectionViewModel {
     private let mediaItem: MediaItem
     var isDownloading = false
+    var downloadTask: URLSessionDataTask?
     
     init(mediaItem: MediaItem) {
         self.mediaItem = mediaItem
@@ -57,5 +58,17 @@ final class CoverArtCollectionViewModel {
         case .ebook:
             return #imageLiteral(resourceName: "ebook")
         }
+    }
+    
+    func downloadArtwork(completion: @escaping ((Result<Void, ServiceError>) -> ())) {
+        isDownloading = true
+        downloadTask = WebService.downloadArtwork(mediaItem: mediaItem) { [weak self] result in
+            self?.isDownloading = false
+            completion(result)
+        }
+    }
+    
+    deinit {
+        downloadTask?.cancel()
     }
 }

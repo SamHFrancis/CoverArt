@@ -240,64 +240,19 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
     //MARK: - Actions
     
     @objc func downloadClicked() {
-        guard let trackName = viewModel?.trackName,
-            let artworkUrl = viewModel?.artworkUrl else { return }
+        guard let viewModel = viewModel else { return }
         
-        viewModel?.isDownloading = true
         showDownloading()
-        URLSession.shared.dataTask(with: artworkUrl) { [weak self] data, response, error in
-            guard let self = self else { return }
-            self.viewModel?.isDownloading = false
-            
-            guard let data = data else {
-                if let error = error {
-                    print(error)
-                }
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.showDownloadError()
-                }
-                
-                return
-            }
-            
-            do {
-                let fileManager = FileManager.default
-                
-                let downloadsDirectory = try fileManager.url(for: .downloadsDirectory,
-                                                             in: .userDomainMask,
-                                                             appropriateFor: nil,
-                                                             create: true)
-                
-                var fileUrl = downloadsDirectory
-                    .appendingPathComponent(trackName)
-                    .appendingPathExtension("jpg")
-                
-                let searchFile = { (url: URL) in
-                    url.absoluteString.dropFirst("file://".count).removingPercentEncoding!
-                }
-                
-                var iteration = 0
-                while fileManager.fileExists(atPath: searchFile(fileUrl)) {
-                    iteration += 1
-                    fileUrl = downloadsDirectory
-                        .appendingPathComponent(trackName + "-\(iteration)")
-                        .appendingPathExtension("jpg")
-                }
-                
-                try data.write(to: fileUrl)
-                
-                DispatchQueue.main.async { [weak self] in
+        viewModel.downloadArtwork { result in
+            DispatchQueue.main.async { [weak self] in
+                switch result {
+                case .success():
                     self?.showDownloaded()
-                }
-            } catch let e {
-                print(e)
-                DispatchQueue.main.async { [weak self] in
+                case .failure(_):
                     self?.showDownloadError()
                 }
             }
-            }
-            .resume()
+        }
     }
     
     @objc func copyLinkClicked() {

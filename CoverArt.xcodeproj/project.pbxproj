@@ -23,7 +23,7 @@
 
 /* Begin PBXFileReference section */
 		222E08A321D9F321009524ED /* CoverArtCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverArtCollectionViewModel.swift; sourceTree = "<group>"; };
-		225A17E721D4711900A465A8 /* CoverArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoverArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		225A17E721D4711900A465A8 /* Cover Art.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cover Art.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225A17EA21D4711900A465A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		225A17EC21D4711900A465A8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		225A17EE21D4711A00A465A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 		225A17E821D4711900A465A8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				225A17E721D4711900A465A8 /* CoverArt.app */,
+				225A17E721D4711900A465A8 /* Cover Art.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,7 +159,7 @@
 			);
 			name = CoverArt;
 			productName = CoverArt;
-			productReference = 225A17E721D4711900A465A8 /* CoverArt.app */;
+			productReference = 225A17E721D4711900A465A8 /* Cover Art.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -406,7 +406,7 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SamFrancis.CoverArt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Cover Art";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -425,7 +425,7 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SamFrancis.CoverArt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Cover Art";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;

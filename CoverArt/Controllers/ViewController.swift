@@ -18,6 +18,7 @@ final class ViewController: NSViewController {
     
     private var itemViewModels = [CoverArtCollectionViewModel]()
     private var mediaType: MediaType = .movie
+    private var searchTask: URLSessionDataTask?
     
     private var windowControler: WindowController? {
         return view.window?.windowController as? WindowController
@@ -41,6 +42,7 @@ final class ViewController: NSViewController {
         emptyStateLabel.isHidden = true
         itemViewModels = []
         collectionView.reloadData()
+        searchTask?.cancel()
         
         guard !term.isEmpty else {
             emptyStateLabel.stringValue = emptySearchText
@@ -49,7 +51,7 @@ final class ViewController: NSViewController {
         }
         
         activityIndicator.startAnimation(nil)
-        WebService.fetchMediaItems(term: term, mediaType: mediaType) { [weak self] result in
+        searchTask = WebService.fetchMediaItems(term: term, mediaType: mediaType) { [weak self] result in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.activityIndicator.stopAnimation(nil)
@@ -69,6 +71,10 @@ final class ViewController: NSViewController {
                 }
             }
         }
+    }
+    
+    deinit {
+        searchTask?.cancel()
     }
 }
 
