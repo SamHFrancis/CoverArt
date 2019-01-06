@@ -102,7 +102,8 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
             let options: KingfisherOptionsInfo = [
                 .processor(processor),
                 .scaleFactor(NSScreen.main!.backingScaleFactor),
-                .cacheMemoryOnly
+                .cacheMemoryOnly,
+                .onFailureImage(viewModel.placeholderImage)
             ]
             
             coverArtImageView.kf.setImage(with: viewModel.artworkUrlSmall,

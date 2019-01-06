@@ -9,7 +9,7 @@
 import Foundation
 
 enum MediaType: String, CaseIterable {
-    case movie, tvShow, podcast, music, musicVideo, audiobook, shortFilm, software, ebook
+    case movie, tvShow, podcast, music, musicVideo, audiobook, software, ebook
     
     var displayString: String {
         switch self {
@@ -23,8 +23,6 @@ enum MediaType: String, CaseIterable {
             return "Music Video"
         case .audiobook:
             return "Audiobook"
-        case .shortFilm:
-            return "Short Film"
         case .tvShow:
             return "TV Show"
         case .software:
