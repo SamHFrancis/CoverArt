@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Foundation
 
 class WindowController: NSWindowController {
     
@@ -16,11 +17,17 @@ class WindowController: NSWindowController {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         shouldCascadeWindows = true
+        (NSApplication.shared.delegate as! AppDelegate).windowControllers.insert(self)
     }
-
+    
     override func windowDidLoad() {
-        window?.setFrameAutosaveName("MainWindow")
         super.windowDidLoad()
+        
+        if let defaultFrameString = UserDefaults.standard.string(forKey: UserDefaults.newWindowSize) {
+            print("New Frame: \(defaultFrameString)")
+            window?.setFrame(NSRectFromString(defaultFrameString), display: true)
+        }
+        
         window?.delegate = self
         searchField.delegate = self
         
@@ -48,6 +55,21 @@ extension WindowController: NSWindowDelegate {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.windowControllers.remove(self)
     }
+    
+    func windowDidResize(_ notification: Notification) {
+        updateDefaultWindowFrame()
+    }
+    
+    func windowDidMove(_ notification: Notification) {
+        updateDefaultWindowFrame()
+    }
+    
+    func updateDefaultWindowFrame() {
+        guard self == (NSApplication.shared.delegate as! AppDelegate).newestWindowController else { return }
+        guard let frame = window?.frame else { return }
+        print("Updated Frame: \(frame)")
+        UserDefaults.standard.set(NSStringFromRect(frame), forKey: UserDefaults.newWindowSize)
+    }
 }
 
 extension WindowController: NSSearchFieldDelegate {
@@ -58,14 +80,16 @@ extension WindowController: NSSearchFieldDelegate {
         switch commandSelector {
         case #selector(NSResponder.insertNewline(_:)):
             let term = searchField.stringValue
-            window?.title = term
+            window?.title = term.isEmpty ? "Empty Search" : term
             let mediaType = MediaType.allCases[popUpButton.indexOfSelectedItem]
             viewController.search(term: term, mediaType: mediaType)
+            return true
+        case #selector(NSResponder.cancelOperation(_:)):
+            window?.makeFirstResponder(nil)
             return true
         case #selector(NSResponder.deleteForward(_:)): fallthrough
         case #selector(NSResponder.deleteBackward(_:)): fallthrough
         case #selector(NSResponder.insertTab(_:)): fallthrough
-        case #selector(NSResponder.cancelOperation(_:)): fallthrough
         default:
             return false
         }

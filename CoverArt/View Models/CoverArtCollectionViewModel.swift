@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import Kingfisher
 
 final class CoverArtCollectionViewModel {
     private let mediaItem: MediaItem
@@ -19,7 +20,7 @@ final class CoverArtCollectionViewModel {
     }
     
     var trackName: String {
-        return mediaItem.trackName
+        return mediaItem.name
     }
     
     var artworkUrlSmall: URL {
@@ -30,6 +31,10 @@ final class CoverArtCollectionViewModel {
         return mediaItem.artworkUrl
     }
     
+    var imageResource: ImageResource {
+        return ImageResource(downloadURL: mediaItem.artworkUrlSmall, cacheKey: String(mediaItem.id))
+    }
+    
     var imageAspectRatio: CGFloat {
         switch mediaItem.type {
         case .movie, .ebook:
@@ -38,6 +43,11 @@ final class CoverArtCollectionViewModel {
             return 1
         }
     }
+    
+    private(set) lazy var downSamplingImageProcessor: ImageProcessor = {
+        let size = CGSize(width: 420, height: 420 / self.imageAspectRatio)
+        return DownsamplingImageProcessor(size: size)
+    }()
     
     var placeholderImage: NSImage {
         switch mediaItem.type {

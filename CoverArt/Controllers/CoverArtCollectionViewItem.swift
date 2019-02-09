@@ -24,8 +24,8 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
         return label
     }()
     
-    private var coverArtImageView: NSImageView = {
-        let imageView = NSImageView()
+    private var coverArtImageView: CoverImageView = {
+        let imageView = CoverImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.imageScaling = .scaleProportionallyUpOrDown
         return imageView
@@ -96,17 +96,14 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
                             multiplier: 1.0 / viewModel.imageAspectRatio)
             imageHeightConstraint.isActive = true
             
-            let size = CGSize(width: 420, height: 420 / viewModel.imageAspectRatio)
-            let processor = DownsamplingImageProcessor(size: size)
-            coverArtImageView.kf.indicatorType = .activity
             let options: KingfisherOptionsInfo = [
-                .processor(processor),
                 .scaleFactor(NSScreen.main!.backingScaleFactor),
                 .cacheMemoryOnly,
                 .onFailureImage(viewModel.placeholderImage)
             ]
             
-            coverArtImageView.kf.setImage(with: viewModel.artworkUrlSmall,
+            coverArtImageView.kf.setImage(with: .network(viewModel.imageResource),
+                                          placeholder: viewModel.placeholderImage,
                                           options: options)
             resetCopyButton()
         }
@@ -122,54 +119,59 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
         let view = NSView(frame: .zero)
         
         view.addSubview(coverArtImageView)
-        coverArtImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        coverArtImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        coverArtImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageHeightConstraint = coverArtImageView.heightAnchor
-            .constraint(equalTo: coverArtImageView.widthAnchor)
-        imageHeightConstraint.isActive = true
-        
         view.addSubview(label)
-        label.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        label.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        label.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor).isActive = true
-        
-        overlay.addSubview(contentView)
-        contentView.topAnchor.constraint(equalTo: overlay.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: overlay.bottomAnchor).isActive = true
-        contentView.leadingAnchor.constraint(equalTo: overlay.leadingAnchor).isActive = true
-        contentView.trailingAnchor.constraint(equalTo: overlay.trailingAnchor).isActive = true
-        contentView.isHidden = true
         
         let downloadView = NSView()
         downloadView.translatesAutoresizingMaskIntoConstraints = false
         downloadView.addSubview(downloadButton)
-        downloadButton.topAnchor.constraint(equalTo: downloadView.topAnchor).isActive = true
-        downloadButton.bottomAnchor.constraint(equalTo: downloadView.bottomAnchor).isActive = true
-        downloadButton.leadingAnchor.constraint(equalTo: downloadView.leadingAnchor).isActive = true
-        downloadButton.trailingAnchor.constraint(equalTo: downloadView.trailingAnchor).isActive = true
-        
         downloadView.addSubview(progerssIndicator)
-        progerssIndicator.centerXAnchor.constraint(equalTo: downloadView.centerXAnchor).isActive = true
-        progerssIndicator.centerYAnchor.constraint(equalTo: downloadView.centerYAnchor).isActive = true
         
         let buttonStack = NSStackView(views: [copyButton, browserButton, downloadView])
         buttonStack.distribution = .fillEqually
         buttonStack.orientation = .horizontal
         buttonStack.alignment = .centerY
-        
         contentView.addSubview(buttonStack)
-        buttonStack.leadingAnchor
-            .constraint(equalTo: contentView.leadingAnchor, constant: 12)
-            .isActive = true
         
-        buttonStack.trailingAnchor
-            .constraint(equalTo: contentView.trailingAnchor, constant: -12)
-            .isActive = true
+        overlay.addSubview(contentView)
+        view.addSubview(overlay)
         
-        buttonStack.bottomAnchor
-            .constraint(equalTo: contentView.bottomAnchor, constant: -12)
-            .isActive = true
+        imageHeightConstraint = coverArtImageView.heightAnchor
+            .constraint(equalTo: coverArtImageView.widthAnchor)
+        
+        NSLayoutConstraint.activate([
+            imageHeightConstraint,
+            coverArtImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            coverArtImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            coverArtImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: overlay.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: overlay.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: overlay.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: overlay.trailingAnchor),
+            
+            downloadButton.topAnchor.constraint(equalTo: downloadView.topAnchor),
+            downloadButton.bottomAnchor.constraint(equalTo: downloadView.bottomAnchor),
+            downloadButton.leadingAnchor.constraint(equalTo: downloadView.leadingAnchor),
+            downloadButton.trailingAnchor.constraint(equalTo: downloadView.trailingAnchor),
+            
+            progerssIndicator.centerXAnchor.constraint(equalTo: downloadView.centerXAnchor),
+            progerssIndicator.centerYAnchor.constraint(equalTo: downloadView.centerYAnchor),
+            
+            buttonStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            
+            overlay.topAnchor.constraint(equalTo: coverArtImageView.topAnchor),
+            overlay.bottomAnchor.constraint(equalTo: coverArtImageView.bottomAnchor),
+            overlay.leadingAnchor.constraint(equalTo: coverArtImageView.leadingAnchor),
+            overlay.trailingAnchor.constraint(equalTo: coverArtImageView.trailingAnchor)
+            ])
+        
+        contentView.isHidden = true
         
         copyButton.target = self
         copyButton.action = #selector(copyLinkClicked)
@@ -180,11 +182,6 @@ final class CoverArtCollectionViewItem: NSCollectionViewItem {
         downloadButton.target = self
         downloadButton.action = #selector(downloadClicked)
         
-        view.addSubview(overlay)
-        overlay.topAnchor.constraint(equalTo: coverArtImageView.topAnchor).isActive = true
-        overlay.bottomAnchor.constraint(equalTo: coverArtImageView.bottomAnchor).isActive = true
-        overlay.leadingAnchor.constraint(equalTo: coverArtImageView.leadingAnchor).isActive = true
-        overlay.trailingAnchor.constraint(equalTo: coverArtImageView.trailingAnchor).isActive = true
         overlay.delegate = self
         
         self.view = view
@@ -298,8 +295,24 @@ fileprivate final class ContentView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         let start = NSColor.black.withAlphaComponent(0.15)
-        if let gradient = NSGradient(colors: [start, start, start, NSColor.black.withAlphaComponent(0.9)]) {
+        if let gradient = NSGradient(colors: [start,
+                                              start,
+                                              start,
+                                              start,
+                                              NSColor.black.withAlphaComponent(0.3),
+                                              NSColor.black.withAlphaComponent(0.6),
+                                              NSColor.black.withAlphaComponent(0.95),
+                                              NSColor.black.withAlphaComponent(0.95)]) {
             gradient.draw(in: bounds, angle: 270)
         }
+    }
+}
+
+fileprivate final class CoverImageView: NSImageView {
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        // Update the border for light/dark mode
+        layer?.borderColor = NSColor.coverBorder.cgColor
+        layer?.borderWidth = 1
     }
 }

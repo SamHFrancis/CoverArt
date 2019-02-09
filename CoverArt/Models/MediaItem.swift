@@ -9,7 +9,8 @@
 import Foundation
 
 struct MediaItem {
-    let trackName: String
+    let id: Int
+    let name: String
     let artworkUrlSmall: URL
     let artworkUrl: URL
     let type: MediaType
@@ -17,7 +18,8 @@ struct MediaItem {
     init?(dict: [String: Any], type: MediaType) {
         self.type = type
         
-        guard let trackName = (dict["trackName"] ?? dict["collectionName"]) as? String,
+        guard let id = (dict["trackId"] ?? dict["collectionId"]) as? Int,
+            let trackName = (dict["trackName"] ?? dict["collectionName"]) as? String,
             let artworkUrl100 = dict["artworkUrl100"] as? String else {
                 return nil
         }
@@ -43,7 +45,8 @@ struct MediaItem {
         
         guard let artworkUrl = artworkUrlComponents?.url else { return nil }
         
-        self.trackName = trackName
+        self.id = id
+        self.name = trackName
         self.artworkUrl = artworkUrl
     }
 }

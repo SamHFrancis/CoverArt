@@ -87,7 +87,7 @@ struct WebService {
                                                              create: true)
                 
                 var fileUrl = downloadsDirectory
-                    .appendingPathComponent(mediaItem.trackName)
+                    .appendingPathComponent(mediaItem.name)
                     .appendingPathExtension("jpg")
                 
                 let searchFile = { (url: URL) in
@@ -98,7 +98,7 @@ struct WebService {
                 while fileManager.fileExists(atPath: searchFile(fileUrl)) {
                     iteration += 1
                     fileUrl = downloadsDirectory
-                        .appendingPathComponent(mediaItem.trackName + "-\(iteration)")
+                        .appendingPathComponent(mediaItem.name + "-\(iteration)")
                         .appendingPathExtension("jpg")
                 }
                 

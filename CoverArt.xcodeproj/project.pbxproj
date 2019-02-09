@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		222C9FD521D5C93F00C4805D /* Pods_CoverArt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D50766F2EDBF4B211B96FA0 /* Pods_CoverArt.framework */; };
 		222E08A421D9F321009524ED /* CoverArtCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222E08A321D9F321009524ED /* CoverArtCollectionViewModel.swift */; };
+		2247998721E3403E00A7C215 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2247998621E3403E00A7C215 /* Colors.xcassets */; };
+		2247998921E343A300A7C215 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247998821E343A300A7C215 /* Colors.swift */; };
+		2247998D21E34EE800A7C215 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247998C21E34EE800A7C215 /* UserDefaults.swift */; };
 		225A17EB21D4711900A465A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A17EA21D4711900A465A8 /* AppDelegate.swift */; };
 		225A17ED21D4711900A465A8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A17EC21D4711900A465A8 /* ViewController.swift */; };
 		225A17EF21D4711A00A465A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225A17EE21D4711A00A465A8 /* Assets.xcassets */; };
@@ -23,6 +26,9 @@
 
 /* Begin PBXFileReference section */
 		222E08A321D9F321009524ED /* CoverArtCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverArtCollectionViewModel.swift; sourceTree = "<group>"; };
+		2247998621E3403E00A7C215 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		2247998821E343A300A7C215 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		2247998C21E34EE800A7C215 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		225A17E721D4711900A465A8 /* Cover Art.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cover Art.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225A17EA21D4711900A465A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		225A17EC21D4711900A465A8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -61,6 +67,26 @@
 			path = "View Models";
 			sourceTree = "<group>";
 		};
+		2247998A21E343A700A7C215 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2247998821E343A300A7C215 /* Colors.swift */,
+				2247998C21E34EE800A7C215 /* UserDefaults.swift */,
+				225A17EE21D4711A00A465A8 /* Assets.xcassets */,
+				2247998621E3403E00A7C215 /* Colors.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2247998B21E343CC00A7C215 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				225A17F321D4711A00A465A8 /* Info.plist */,
+				225A17F421D4711A00A465A8 /* CoverArt.entitlements */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		225A17DE21D4711800A465A8 = {
 			isa = PBXGroup;
 			children = (
@@ -88,10 +114,9 @@
 				227F4D3E21D743EF00399DE1 /* Views */,
 				227F4D4221D7486400399DE1 /* Controllers */,
 				225A17FE21D4AB3300A465A8 /* WebService.swift */,
-				225A17EE21D4711A00A465A8 /* Assets.xcassets */,
+				2247998A21E343A700A7C215 /* Resources */,
+				2247998B21E343CC00A7C215 /* Config */,
 				225A17F021D4711A00A465A8 /* Main.storyboard */,
-				225A17F321D4711A00A465A8 /* Info.plist */,
-				225A17F421D4711A00A465A8 /* CoverArt.entitlements */,
 			);
 			path = CoverArt;
 			sourceTree = "<group>";
@@ -200,6 +225,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2247998721E3403E00A7C215 /* Colors.xcassets in Resources */,
 				225A17EF21D4711A00A465A8 /* Assets.xcassets in Resources */,
 				225A17F221D4711A00A465A8 /* Main.storyboard in Resources */,
 			);
@@ -252,7 +278,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2261A74F21D5FF2700AB158F /* WindowController.swift in Sources */,
+				2247998921E343A300A7C215 /* Colors.swift in Sources */,
 				227F4D4121D7448D00399DE1 /* OverlayView.swift in Sources */,
+				2247998D21E34EE800A7C215 /* UserDefaults.swift in Sources */,
 				2261A74B21D5E67C00AB158F /* MediaType.swift in Sources */,
 				222E08A421D9F321009524ED /* CoverArtCollectionViewModel.swift in Sources */,
 				225A17ED21D4711900A465A8 /* ViewController.swift in Sources */,
@@ -400,7 +428,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = YY7FKCXAZ6;
-				INFOPLIST_FILE = CoverArt/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/CoverArt/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -419,7 +447,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = YY7FKCXAZ6;
-				INFOPLIST_FILE = CoverArt/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/CoverArt/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

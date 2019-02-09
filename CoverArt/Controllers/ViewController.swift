@@ -41,10 +41,12 @@ final class ViewController: NSViewController {
     func search(term: String, mediaType: MediaType) {
         self.mediaType = mediaType
         emptyStateLabel.isHidden = true
-        itemViewModels = []
-        collectionView.reloadData()
         searchTask?.cancel()
         stopPrefetchers()
+        clearSearchCache()
+        
+        itemViewModels = []
+        collectionView.reloadData()
         
         guard !term.isEmpty else {
             emptyStateLabel.stringValue = emptySearchText
@@ -79,11 +81,20 @@ final class ViewController: NSViewController {
         for prefetcher in prefetchers {
             prefetcher.stop()
         }
+        
+        prefetchers.removeAll()
+    }
+    
+    func clearSearchCache() {
+        for viewModel in itemViewModels {
+            ImageCache.default.removeImage(forKey: viewModel.imageResource.cacheKey)
+        }
     }
     
     deinit {
         searchTask?.cancel()
         stopPrefetchers()
+        clearSearchCache()
     }
 }
 
@@ -137,7 +148,7 @@ extension ViewController: NSCollectionViewDelegateFlowLayout {
 extension ViewController: NSCollectionViewPrefetching {
     func collectionView(_ collectionView: NSCollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         let urls = indexPaths.map { itemViewModels[$0.item].artworkUrlSmall }
-        let prefetcher = ImagePrefetcher(urls: urls)
+        let prefetcher = ImagePrefetcher(urls: urls, options: [.alsoPrefetchToMemory])
         prefetchers.append(prefetcher)
         prefetcher.start()
     }

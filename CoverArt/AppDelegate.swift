@@ -10,10 +10,21 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var windowControllers = Set<NSWindowController>()
+    var windowControllers = Set<WindowController>()
+    weak var newestWindowController: WindowController?
+    
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if windowControllers.isEmpty {
+            newWindow(sender)
+        }
+        
+        return true
+    }
     
     @IBAction func newWindow(_ sender: Any) {
-        guard let newWindow = newWindowController().window else { return }
+        let newController = newWindowController()
+        guard let newWindow = newController.window else { return }
+        newestWindowController = newController
         newWindow.makeKeyAndOrderFront(sender)
     }
     
@@ -32,7 +43,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func newWindowController() -> WindowController {
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
         let windowController = storyboard.instantiateInitialController() as! WindowController
-        windowControllers.insert(windowController)
         return windowController
     }
 }
