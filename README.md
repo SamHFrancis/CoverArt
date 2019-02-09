@@ -1,5 +1,5 @@
 # CoverArt
-A native Mac app for browsing high quality iTunes artwork. Supports all kinds of iTunes media.
+A native Mac app for browsing high quality iTunes artwork. It uses the public [iTunes API](https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/) and supports all kinds of iTunes media.
 - Movies
 - TV Shows
 - Podcasts
